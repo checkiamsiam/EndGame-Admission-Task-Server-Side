@@ -43,7 +43,7 @@ async function run() {
       const updateItem = { _id: ObjectId(id) }; // id diye specific akti data khuja
       const options = { upsert: true }; // update + insert = upsert aita sotto condition dawa
 
-      // update data korar khetre body ta aibhabe rakte hoy (following to the docs)
+
       const updateDoc = {
         $set: req.body
       };
@@ -53,11 +53,11 @@ async function run() {
     })
 
     app.put('/addToComplete/:id', async (req, res) => {
-      const id = req.params.id; // id param use
-      const updateItem = { _id: ObjectId(id) }; // id diye specific akti data khuja
-      const options = { upsert: true }; // update + insert = upsert aita sotto condition dawa
+      const id = req.params.id; 
+      const updateItem = { _id: ObjectId(id) }; 
+      const options = { upsert: true }; 
 
-      // update data korar khetre body ta aibhabe rakte hoy (following to the docs)
+    
       const updateDoc = {
         $set: {
           completed: true
