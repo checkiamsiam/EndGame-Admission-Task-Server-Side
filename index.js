@@ -6,8 +6,8 @@ const port = process.env.PORT || 5000
 require('dotenv').config()
 
 
-app.use(cors()) 
-app.use(express.json()) 
+app.use(cors())
+app.use(express.json())
 
 const uri = `mongodb+srv://noteTakerdb:${process.env.SECRET}@cluster0.d85vo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -22,8 +22,8 @@ async function run() {
     //get method
     app.get('/tasks', async (req, res) => {
       const query = req.query;
-      const cursor = await taskCollection.find(query) 
-      const result = await cursor.toArray() 
+      const cursor = await taskCollection.find(query)
+      const result = await cursor.toArray()
       res.send(result)
     })
 
@@ -46,6 +46,22 @@ async function run() {
       // update data korar khetre body ta aibhabe rakte hoy (following to the docs)
       const updateDoc = {
         $set: req.body
+      };
+      // final result 
+      const result = await taskCollection.updateOne(updateItem, updateDoc, options);
+      res.send(result)
+    })
+
+    app.put('/addToComplete/:id', async (req, res) => {
+      const id = req.params.id; // id param use
+      const updateItem = { _id: ObjectId(id) }; // id diye specific akti data khuja
+      const options = { upsert: true }; // update + insert = upsert aita sotto condition dawa
+
+      // update data korar khetre body ta aibhabe rakte hoy (following to the docs)
+      const updateDoc = {
+        $set: {
+          completed: true
+        }
       };
       // final result 
       const result = await taskCollection.updateOne(updateItem, updateDoc, options);
